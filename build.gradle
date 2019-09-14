@@ -27,5 +27,7 @@ targetCompatibility = 11
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("com.amazonaws:aws-java-sdk:1.11.631")
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
