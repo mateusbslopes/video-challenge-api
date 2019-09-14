@@ -5,37 +5,43 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class VideoStorage {
 
     protected static String path = "/home/mateus/workfolder/storage";
+
+    protected static File convertMultipartFileToFile(MultipartFile fileToConvert){
+        File convertedFile = new File(fileToConvert.getOriginalFilename());
+        try {
+            convertedFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convertedFile);
+            fos.write(fileToConvert.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return convertedFile;
+    }
 
     public static void save(MultipartFile video){
         Regions clientRegion = Regions.SA_EAST_1;
         String bucketName = "video-challenge-api";
 
         String stringObjKeyName = "test1";
-        String fileObjKeyName = "test1";
-        String fileName = "test1";
+        File fileToUpload = convertMultipartFileToFile(video);
 
         try {
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                     .withRegion(clientRegion)
                     .build();
 
-            s3Client.putObject(bucketName, stringObjKeyName, "Uploaded String Object");
-
-            PutObjectRequest request = new PutObjectRequest(bucketName, fileObjKeyName, new File(fileName));
+            s3Client.putObject(bucketName, stringObjKeyName, fileToUpload);
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         } catch (SdkClientException e) {
