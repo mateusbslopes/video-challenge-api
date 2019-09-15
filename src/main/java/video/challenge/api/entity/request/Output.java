@@ -6,13 +6,13 @@ import video.challenge.api.entity.BitMovin;
 
 import java.io.UnsupportedEncodingException;
 
-public class Input extends BitMovin {
+public class Output extends BitMovin {
 
-    public Input(String name) throws UnsupportedEncodingException {
-        super("/encoding/inputs/s3");
+    public Output() throws UnsupportedEncodingException {
+        super("/encoding/outputs/s3");
         JSONObject params = new JSONObject();
 
-        params.put("name", name);
+        params.put("name", "testOut");
         params.put("cloudRegion", "SA_EAST_1");
         params.put("bucketName", "video-challenge-api");
         params.put("accessKey", "");
@@ -21,6 +21,5 @@ public class Input extends BitMovin {
         StringEntity entity = new StringEntity(params.toJSONString());
         setEntity(entity);
     }
-
 
 }
