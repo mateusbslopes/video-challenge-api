@@ -8,11 +8,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import video.challenge.api.entity.BitMovin;
+import video.challenge.api.entity.request.H264VideoConfiguration;
 import video.challenge.api.entity.request.Input;
 import video.challenge.api.entity.request.Output;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
@@ -20,6 +22,7 @@ public class Encoding {
 
     protected static String inputId;
     protected static String outputId;
+    protected static String h624VideoConfigurationId;
     protected static HttpClient httpClient;
 
     public static void encode(String name){
@@ -28,15 +31,31 @@ public class Encoding {
 
             setInputId();
             setOutputId();
+            setH624VideoConfigurationId();
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
+    private static void setH624VideoConfigurationId() throws IOException, ParseException {
+        // Do input request
+        H264VideoConfiguration request = new H264VideoConfiguration();
+        HttpResponse response = httpClient.execute(request);
+        // Get input response
+        HttpEntity ent = response.getEntity();
+        InputStream is = ent.getContent();
+        String responseStr = convert(is, Charset.defaultCharset());
+        JSONParser parser = new JSONParser();
+        JSONObject responseJson = (JSONObject) parser.parse(responseStr);
+        JSONObject data = (JSONObject)responseJson.get("data");
+        JSONObject result = (JSONObject)data.get("result");
+        h624VideoConfigurationId = (String)result.get("id");
+    }
+
     private static void setInputId() throws IOException, ParseException {
         // Do input request
-        BitMovin request = new Input("test1");
+        Input request = new Input("test1");
         HttpResponse response = httpClient.execute(request);
         // Get input response
         HttpEntity ent = response.getEntity();
