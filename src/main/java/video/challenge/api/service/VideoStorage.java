@@ -1,6 +1,5 @@
-package video.challenge.api.Service;
+package video.challenge.api.service;
 
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
