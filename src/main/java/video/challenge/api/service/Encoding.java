@@ -7,10 +7,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import video.challenge.api.entity.request.Encode;
-import video.challenge.api.entity.request.H264VideoConfiguration;
-import video.challenge.api.entity.request.Input;
-import video.challenge.api.entity.request.Output;
+import video.challenge.api.entity.request.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,20 +21,40 @@ public class Encoding {
     protected static String outputId;
     protected static String h624VideoConfigurationId;
     protected static String encodeId;
+    protected static String streamId;
     protected static HttpClient httpClient;
 
     public static void encode(String name){
         try {
             httpClient = HttpClientBuilder.create().build();
 
-//            setInputId();
-//            setOutputId();
-//            setH624VideoConfigurationId();
-            setEncodeId();
+            encodeId = "1d2c9203-8ece-4ae0-b6a5-88d8748dbdff";
+            inputId = "209cff35-5c6f-4541-98ac-3ca08fbdf846";
+            outputId = "2ece7963-a61e-4683-81de-246cb25ee258";
+            h624VideoConfigurationId = "0a4449f4-4ae7-429c-ba22-e3f942c8f30c";
+            streamId = "c7f43adb-f95e-480d-857c-6eaee5fc3825";
 
+            setInputId();
+            setOutputId();
+            setH624VideoConfigurationId();
+            setEncodeId();
+            setStreamId();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void setStreamId() throws IOException, ParseException {
+        Stream request = new Stream(encodeId, inputId, outputId, h624VideoConfigurationId);
+        HttpResponse response = httpClient.execute(request);
+        HttpEntity ent = response.getEntity();
+        InputStream is = ent.getContent();
+        String responseStr = convert(is, Charset.defaultCharset());
+        JSONParser parser = new JSONParser();
+        JSONObject responseJson = (JSONObject) parser.parse(responseStr);
+        JSONObject data = (JSONObject)responseJson.get("data");
+        JSONObject result = (JSONObject)data.get("result");
+        streamId = (String)result.get("id");
     }
 
     private static void setEncodeId() throws IOException, ParseException {
