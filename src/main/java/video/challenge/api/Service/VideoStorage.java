@@ -42,8 +42,7 @@ public class VideoStorage {
                     .build();
 
             s3Client.putObject(bucketName, stringObjKeyName, fileToUpload);
-        } catch (AmazonServiceException e) {
-            e.printStackTrace();
+            fileToUpload.delete();
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
