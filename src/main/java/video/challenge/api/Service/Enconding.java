@@ -29,20 +29,21 @@ public class Enconding {
     public static void encode(String name){
         try {
             // Set input
-            BitmovinApi bitmovin = new BitmovinApi("52256c2c-dfe6-4591-b52c-31748c5cdba2");
+            BitmovinApi bitmovin = new BitmovinApi("");
             S3Input input = new S3Input();
+            // @todo Remove when commit
             input.setId("test1");
-            input.setAccessKey("AKIAJQ73NTQQ3LIXH2YQ");
-            input.setSecretKey("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");
+            input.setAccessKey("");
+            input.setSecretKey("");
             input.setBucketName("video-challenge-api");
 
             input = bitmovin.input.s3.create(input);
 
             // Set output
             S3Output output = new S3Output();
-
-            output.setAccessKey("AKIAJQ73NTQQ3LIXH2YQ");
-            output.setSecretKey("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");
+            output.setId("encodedTest");
+            output.setAccessKey("");
+            output.setSecretKey("");
             output.setBucketName("video-challenge-api");
 
             output = bitmovin.output.s3.create(output);
@@ -52,7 +53,7 @@ public class Enconding {
             // Set video codec config
             H264VideoConfiguration videoCodecConfig = new H264VideoConfiguration();
 
-            videoCodecConfig.setName("Getting Started H264 Codec Config 1");
+            videoCodecConfig.setName("Test Video");
             videoCodecConfig.setBitrate(1500000L);
             videoCodecConfig.setWidth(1024);
             videoCodecConfig.setProfile(ProfileH264.HIGH);
@@ -62,14 +63,14 @@ public class Enconding {
             // Create encoding
             Encoding encoding = new Encoding();
 
-            encoding.setName("Getting Started Encoding");
+            encoding.setName("Test Video");
             encoding.setCloudRegion(CloudRegion.AWS_SA_EAST_1);
             encoding.setEncoderVersion("2.22.0");
 
             encoding = bitmovin.encoding.create(encoding);
 
             // Create stream video
-            String inputPath = "/home/mateus/workfolder/storage";
+            String inputPath = "/";
 
             Stream streamVideo = new Stream();
 
