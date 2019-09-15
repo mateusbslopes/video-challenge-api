@@ -7,7 +7,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import video.challenge.api.entity.BitMovin;
+import video.challenge.api.entity.request.Encode;
 import video.challenge.api.entity.request.H264VideoConfiguration;
 import video.challenge.api.entity.request.Input;
 import video.challenge.api.entity.request.Output;
@@ -23,19 +23,34 @@ public class Encoding {
     protected static String inputId;
     protected static String outputId;
     protected static String h624VideoConfigurationId;
+    protected static String encodeId;
     protected static HttpClient httpClient;
 
     public static void encode(String name){
         try {
             httpClient = HttpClientBuilder.create().build();
 
-            setInputId();
-            setOutputId();
-            setH624VideoConfigurationId();
+//            setInputId();
+//            setOutputId();
+//            setH624VideoConfigurationId();
+            setEncodeId();
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void setEncodeId() throws IOException, ParseException {
+        Encode request = new Encode();
+        HttpResponse response = httpClient.execute(request);
+        HttpEntity ent = response.getEntity();
+        InputStream is = ent.getContent();
+        String responseStr = convert(is, Charset.defaultCharset());
+        JSONParser parser = new JSONParser();
+        JSONObject responseJson = (JSONObject) parser.parse(responseStr);
+        JSONObject data = (JSONObject)responseJson.get("data");
+        JSONObject result = (JSONObject)data.get("result");
+        encodeId = (String)result.get("id");
     }
 
     private static void setH624VideoConfigurationId() throws IOException, ParseException {
