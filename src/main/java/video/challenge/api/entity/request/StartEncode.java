@@ -6,18 +6,13 @@ import video.challenge.api.entity.BitMovin;
 
 import java.io.UnsupportedEncodingException;
 
-public class H264VideoConfiguration extends BitMovin {
+public class StartEncode extends BitMovin {
 
-    public H264VideoConfiguration() throws UnsupportedEncodingException {
-        super("/encoding/configurations/video/h264");
-
+    public StartEncode(String encodeId) throws UnsupportedEncodingException {
+        super("/encoding/encodings/" + encodeId + "/start");
         JSONObject params = new JSONObject();
-
-        params.put("name", "testH264VideoConfiguration");
-        params.put("bitrate", 1500000L);
-        params.put("profile", "HIGH");
+        params.put("encodingMode", "STANDARD");
         StringEntity entity = new StringEntity(params.toJSONString());
         setEntity(entity);
     }
-
 }

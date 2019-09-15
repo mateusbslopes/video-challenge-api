@@ -3,6 +3,8 @@ package video.challenge.api.service;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,7 +33,7 @@ public class Encoding {
             encodeId = "1d2c9203-8ece-4ae0-b6a5-88d8748dbdff";
             inputId = "209cff35-5c6f-4541-98ac-3ca08fbdf846";
             outputId = "2ece7963-a61e-4683-81de-246cb25ee258";
-            h624VideoConfigurationId = "0a4449f4-4ae7-429c-ba22-e3f942c8f30c";
+            h624VideoConfigurationId = "f8fb66dc-7740-4743-a1d9-c6ce636d22e4";
             streamId = "c7f43adb-f95e-480d-857c-6eaee5fc3825";
 
             setInputId();
@@ -39,9 +41,20 @@ public class Encoding {
             setH624VideoConfigurationId();
             setEncodeId();
             setStreamId();
+
+            startEncoding();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void startEncoding() throws IOException, ParseException {
+        StartEncode request = new StartEncode(encodeId);
+        HttpResponse response = httpClient.execute(request);
+        HttpEntity ent = response.getEntity();
+        InputStream is = ent.getContent();
+        String responseStr = convert(is, Charset.defaultCharset());
+        System.out.println(responseStr);
     }
 
     private static void setStreamId() throws IOException, ParseException {

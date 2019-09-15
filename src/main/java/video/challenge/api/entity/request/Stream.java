@@ -28,7 +28,6 @@ public class Stream extends BitMovin {
         outputStream.put("outputId", outputId);
         outputStream.put("outputPath", "0efaa94a-b3f6-468b-8415-0ffc21904a49/" + System.currentTimeMillis());
         outputStreams.add(outputStream);
-        // DO not put acl because the default is public.
         params.put("outputs", outputStreams);
 
         params.put("codecConfigId", codecConfigId);
