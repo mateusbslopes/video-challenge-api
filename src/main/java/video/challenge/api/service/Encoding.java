@@ -14,6 +14,9 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
+/**
+ * Class used to encode the videos.
+ */
 public class Encoding {
 
     protected static String inputId;
@@ -23,11 +26,14 @@ public class Encoding {
     protected static String streamId;
     protected static HttpClient httpClient;
 
-    public static void encode(String name){
+    /**
+     * Create all bitmovin configuration and sent it to be encoded.
+     */
+    public static void encode(){
         try {
             httpClient = HttpClientBuilder.create().build();
             createInput();
-            createOutpu();
+            createOutput();
             createH624VideoConfiguration();
             createEncode();
             createStream();
@@ -38,6 +44,10 @@ public class Encoding {
         }
     }
 
+    /**
+     * Creates the muxing configuration on bitmovin server.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     */
     private static void createMuxing() throws IOException {
         Muxing request = new Muxing(encodeId, streamId);
         HttpResponse response = httpClient.execute(request);
@@ -47,14 +57,23 @@ public class Encoding {
         System.out.println(responseStr);
     }
 
-    private static void startEncoding() throws IOException, ParseException {
+    /**
+     * Sent request to start the encoding.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     */
+    private static void startEncoding() throws IOException {
         StartEncode request = new StartEncode(encodeId);
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
         InputStream is = ent.getContent();
-        String responseStr = convert(is, Charset.defaultCharset());
+        convert(is, Charset.defaultCharset());
     }
 
+    /**
+     * Creates the stream on bitmovin server.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     * @throws ParseException Thrown when occur an error trying to parse the response.
+     */
     private static void createStream() throws IOException, ParseException {
         Stream request = new Stream(encodeId, inputId, outputId, h624VideoConfigurationId);
         HttpResponse response = httpClient.execute(request);
@@ -68,6 +87,11 @@ public class Encoding {
         streamId = (String)result.get("id");
     }
 
+    /**
+     * Creates the encode on bitmovin server.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     * @throws ParseException Thrown when occur an error trying to parse the response.
+     */
     private static void createEncode() throws IOException, ParseException {
         Encode request = new Encode();
         HttpResponse response = httpClient.execute(request);
@@ -81,11 +105,14 @@ public class Encoding {
         encodeId = (String)result.get("id");
     }
 
+    /**
+     * Creates the h264 video configuratino on bitmovin server.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     * @throws ParseException Thrown when occur an error trying to parse the response.
+     */
     private static void createH624VideoConfiguration() throws IOException, ParseException {
-        // Do input request
         H264VideoConfiguration request = new H264VideoConfiguration();
         HttpResponse response = httpClient.execute(request);
-        // Get input response
         HttpEntity ent = response.getEntity();
         InputStream is = ent.getContent();
         String responseStr = convert(is, Charset.defaultCharset());
@@ -96,11 +123,14 @@ public class Encoding {
         h624VideoConfigurationId = (String)result.get("id");
     }
 
+    /**
+     * Creates the input on the bitmovin server.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     * @throws ParseException Thrown when occur an error trying to parse the response.
+     */
     private static void createInput() throws IOException, ParseException {
-        // Do input request
         Input request = new Input("test1");
         HttpResponse response = httpClient.execute(request);
-        // Get input response
         HttpEntity ent = response.getEntity();
         InputStream is = ent.getContent();
         String responseStr = convert(is, Charset.defaultCharset());
@@ -111,11 +141,14 @@ public class Encoding {
         inputId = (String)result.get("id");
     }
 
-    private static void createOutpu() throws IOException, ParseException {
-        // Do output request
+    /**
+     * Creates the output on bitmovin server.
+     * @throws IOException Thrown when occur an error trying to execute the request.
+     * @throws ParseException Thrown when occur an error trying to parse the response.
+     */
+    private static void createOutput() throws IOException, ParseException {
         Output request = new Output();
         HttpResponse response = httpClient.execute(request);
-        // Get output response
         HttpEntity ent = response.getEntity();
         InputStream is = ent.getContent();
         String responseStr = convert(is, Charset.defaultCharset());
@@ -126,7 +159,13 @@ public class Encoding {
         outputId = (String)result.get("id");
     }
 
-    public static String convert(InputStream inputStream, Charset charset) throws IOException {
+    /**
+     * Convert the input stream to a string.
+     * @param inputStream InputStream to be converted.
+     * @param charset Charset to be used.
+     * @return String with the content of the inputStream.
+     */
+    public static String convert(InputStream inputStream, Charset charset) {
         try (Scanner scanner = new Scanner(inputStream, charset.name())) {
             return scanner.useDelimiter("\\A").next();
         }

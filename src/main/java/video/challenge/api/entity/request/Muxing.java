@@ -4,6 +4,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import video.challenge.api.entity.BitMovin;
 
+/**
+ * Represents the bitmovin Muxing request.
+ */
 public class Muxing extends BitMovin {
 
     public Muxing(String encodeId, String streamId) {

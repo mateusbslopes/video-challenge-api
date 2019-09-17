@@ -6,6 +6,9 @@ import video.challenge.api.entity.BitMovin;
 
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Represents the bitmovin H264 video configuration request.
+ */
 public class H264VideoConfiguration extends BitMovin {
 
     public H264VideoConfiguration() throws UnsupportedEncodingException {

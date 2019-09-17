@@ -10,10 +10,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Class to sent the videos to be saved on Amazon.
+ */
 public class VideoStorage {
 
     protected static String path = "/home/mateus/workfolder/storage";
 
+    /**
+     * Convert the video from Spring MultipartFile to Native java format.
+     * @param fileToConvert File to be converted.
+     * @return The converted file.
+     */
     protected static File convertMultipartFileToFile(MultipartFile fileToConvert){
         File convertedFile = new File(fileToConvert.getOriginalFilename());
         try {
@@ -28,6 +36,10 @@ public class VideoStorage {
         return convertedFile;
     }
 
+    /**
+     * Saves the file on amazon.
+     * @param video Video to be saved.
+     */
     public static void save(MultipartFile video){
         Regions clientRegion = Regions.SA_EAST_1;
         String bucketName = "video-challenge-api";

@@ -6,6 +6,9 @@ import video.challenge.api.entity.BitMovin;
 
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Represents the bitmovin Output request.
+ */
 public class Output extends BitMovin {
 
     public Output() throws UnsupportedEncodingException {
