@@ -18,7 +18,7 @@ public class VideoUploaderController {
      * Saves a file on amazon cloud and sent it to encode.
      * @param video Video to be sent and encoded.
      */
-    @PostMapping
+    @PostMapping("/")
     public String uploadVideo(@RequestParam("file")MultipartFile video){
         try{
             VideoStorage.save(video);
