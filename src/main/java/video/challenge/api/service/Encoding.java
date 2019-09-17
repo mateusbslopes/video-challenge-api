@@ -3,8 +3,6 @@ package video.challenge.api.service;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +11,6 @@ import video.challenge.api.entity.request.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
@@ -29,20 +26,19 @@ public class Encoding {
     public static void encode(String name){
         try {
             httpClient = HttpClientBuilder.create().build();
-//            setInputId();
-            inputId = "e742f114-c102-4865-8f6c-cf40fe83f5d5";
-            setOutputId();
-            setH624VideoConfigurationId();
-            setEncodeId();
-            setStreamId();
-            setMuxingId();
+            createInput();
+            createOutpu();
+            createH624VideoConfiguration();
+            createEncode();
+            createStream();
+            createMuxing();
             startEncoding();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private static void setMuxingId() throws IOException {
+    private static void createMuxing() throws IOException {
         Muxing request = new Muxing(encodeId, streamId);
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -59,7 +55,7 @@ public class Encoding {
         String responseStr = convert(is, Charset.defaultCharset());
     }
 
-    private static void setStreamId() throws IOException, ParseException {
+    private static void createStream() throws IOException, ParseException {
         Stream request = new Stream(encodeId, inputId, outputId, h624VideoConfigurationId);
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -72,7 +68,7 @@ public class Encoding {
         streamId = (String)result.get("id");
     }
 
-    private static void setEncodeId() throws IOException, ParseException {
+    private static void createEncode() throws IOException, ParseException {
         Encode request = new Encode();
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -85,7 +81,7 @@ public class Encoding {
         encodeId = (String)result.get("id");
     }
 
-    private static void setH624VideoConfigurationId() throws IOException, ParseException {
+    private static void createH624VideoConfiguration() throws IOException, ParseException {
         // Do input request
         H264VideoConfiguration request = new H264VideoConfiguration();
         HttpResponse response = httpClient.execute(request);
@@ -100,7 +96,7 @@ public class Encoding {
         h624VideoConfigurationId = (String)result.get("id");
     }
 
-    private static void setInputId() throws IOException, ParseException {
+    private static void createInput() throws IOException, ParseException {
         // Do input request
         Input request = new Input("test1");
         HttpResponse response = httpClient.execute(request);
@@ -115,7 +111,7 @@ public class Encoding {
         inputId = (String)result.get("id");
     }
 
-    private static void setOutputId() throws IOException, ParseException {
+    private static void createOutpu() throws IOException, ParseException {
         // Do output request
         Output request = new Output();
         HttpResponse response = httpClient.execute(request);
