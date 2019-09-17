@@ -4,7 +4,9 @@ import org.apache.http.entity.StringEntity;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import video.challenge.api.entity.BitMovin;
+import video.challenge.api.exception.VideoChallengeException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -12,7 +14,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class Stream extends BitMovin {
 
-    public Stream(String encodeId, String inputId, String outputId, String codecConfigId) throws UnsupportedEncodingException {
+    public Stream(String encodeId, String inputId, String outputId, String codecConfigId) throws IOException, VideoChallengeException {
         super("/encoding/encodings/" + encodeId + "/streams");
 
         JSONObject params = new JSONObject();

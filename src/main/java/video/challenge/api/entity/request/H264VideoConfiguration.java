@@ -3,7 +3,9 @@ package video.challenge.api.entity.request;
 import org.apache.http.entity.StringEntity;
 import org.json.simple.JSONObject;
 import video.challenge.api.entity.BitMovin;
+import video.challenge.api.exception.VideoChallengeException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -11,7 +13,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class H264VideoConfiguration extends BitMovin {
 
-    public H264VideoConfiguration() throws UnsupportedEncodingException {
+    public H264VideoConfiguration() throws IOException, VideoChallengeException {
         super("/encoding/configurations/video/h264");
 
         JSONObject params = new JSONObject();

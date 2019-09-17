@@ -3,7 +3,9 @@ package video.challenge.api.entity.request;
 import org.apache.http.entity.StringEntity;
 import org.json.simple.JSONObject;
 import video.challenge.api.entity.BitMovin;
+import video.challenge.api.exception.VideoChallengeException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -11,7 +13,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class Encode extends BitMovin {
 
-    public Encode() throws UnsupportedEncodingException {
+    public Encode() throws IOException, VideoChallengeException {
         super("/encoding/encodings");
         JSONObject params = new JSONObject();
 

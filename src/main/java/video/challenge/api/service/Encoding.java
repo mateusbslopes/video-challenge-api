@@ -49,7 +49,7 @@ public class Encoding {
      * Creates the muxing configuration on bitmovin server.
      * @throws IOException Thrown when occur an error trying to execute the request.
      */
-    private static void createMuxing() throws IOException {
+    private static void createMuxing() throws IOException, VideoChallengeException {
         Muxing request = new Muxing(encodeId, streamId);
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -62,7 +62,7 @@ public class Encoding {
      * Sent request to start the encoding.
      * @throws IOException Thrown when occur an error trying to execute the request.
      */
-    private static void startEncoding() throws IOException {
+    private static void startEncoding() throws IOException, VideoChallengeException {
         StartEncode request = new StartEncode(encodeId);
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -75,7 +75,7 @@ public class Encoding {
      * @throws IOException Thrown when occur an error trying to execute the request.
      * @throws ParseException Thrown when occur an error trying to parse the response.
      */
-    private static void createStream() throws IOException, ParseException {
+    private static void createStream() throws IOException, ParseException, VideoChallengeException {
         Stream request = new Stream(encodeId, inputId, outputId, h624VideoConfigurationId);
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -93,7 +93,7 @@ public class Encoding {
      * @throws IOException Thrown when occur an error trying to execute the request.
      * @throws ParseException Thrown when occur an error trying to parse the response.
      */
-    private static void createEncode() throws IOException, ParseException {
+    private static void createEncode() throws IOException, ParseException, VideoChallengeException {
         Encode request = new Encode();
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -111,7 +111,7 @@ public class Encoding {
      * @throws IOException Thrown when occur an error trying to execute the request.
      * @throws ParseException Thrown when occur an error trying to parse the response.
      */
-    private static void createH624VideoConfiguration() throws IOException, ParseException {
+    private static void createH624VideoConfiguration() throws IOException, ParseException, VideoChallengeException {
         H264VideoConfiguration request = new H264VideoConfiguration();
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -129,7 +129,7 @@ public class Encoding {
      * @throws IOException Thrown when occur an error trying to execute the request.
      * @throws ParseException Thrown when occur an error trying to parse the response.
      */
-    private static void createInput() throws IOException, ParseException {
+    private static void createInput() throws IOException, ParseException, VideoChallengeException {
         Input request = new Input("test1");
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
@@ -147,7 +147,7 @@ public class Encoding {
      * @throws IOException Thrown when occur an error trying to execute the request.
      * @throws ParseException Thrown when occur an error trying to parse the response.
      */
-    private static void createOutput() throws IOException, ParseException {
+    private static void createOutput() throws IOException, ParseException, VideoChallengeException {
         Output request = new Output();
         HttpResponse response = httpClient.execute(request);
         HttpEntity ent = response.getEntity();
