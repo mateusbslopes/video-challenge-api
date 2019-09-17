@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import video.challenge.api.exception.VideoChallengeException;
 import video.challenge.api.service.Encoding;
 import video.challenge.api.service.VideoStorage;
 
@@ -18,10 +19,13 @@ public class VideoUploaderController {
      * @param video Video to be sent and encoded.
      */
     @PostMapping
-    public void uploadVideo(@RequestParam("file")MultipartFile video){
-        VideoStorage.save(video);
-        Encoding.encode();
+    public String uploadVideo(@RequestParam("file")MultipartFile video){
+        try{
+            VideoStorage.save(video);
+            Encoding.encode();
+        } catch (VideoChallengeException e){
+            return "An error occur: " + e.getMessage();
+        }
+        return "Video successfully encoded!";
     }
-
-
 }

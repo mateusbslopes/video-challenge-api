@@ -5,6 +5,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.web.multipart.MultipartFile;
+import video.challenge.api.exception.VideoChallengeException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,7 +41,7 @@ public class VideoStorage {
      * Saves the file on amazon.
      * @param video Video to be saved.
      */
-    public static void save(MultipartFile video){
+    public static void save(MultipartFile video) throws VideoChallengeException {
         Regions clientRegion = Regions.SA_EAST_1;
         String bucketName = "video-challenge-api";
 
@@ -55,7 +56,7 @@ public class VideoStorage {
             s3Client.putObject(bucketName, stringObjKeyName, fileToUpload);
             fileToUpload.delete();
         } catch (SdkClientException e) {
-            e.printStackTrace();
+            throw new VideoChallengeException("Could not contact amazon server.");
         }
     }
 

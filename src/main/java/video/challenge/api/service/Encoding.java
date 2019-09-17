@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import video.challenge.api.entity.request.*;
+import video.challenge.api.exception.VideoChallengeException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +30,7 @@ public class Encoding {
     /**
      * Create all bitmovin configuration and sent it to be encoded.
      */
-    public static void encode(){
+    public static void encode() throws VideoChallengeException {
         try {
             httpClient = HttpClientBuilder.create().build();
             createInput();
@@ -40,7 +41,7 @@ public class Encoding {
             createMuxing();
             startEncoding();
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new VideoChallengeException("An error occur trying to encode the video: " + e);
         }
     }
 
@@ -106,7 +107,7 @@ public class Encoding {
     }
 
     /**
-     * Creates the h264 video configuratino on bitmovin server.
+     * Creates the h264 video configuration on bitmovin server.
      * @throws IOException Thrown when occur an error trying to execute the request.
      * @throws ParseException Thrown when occur an error trying to parse the response.
      */
