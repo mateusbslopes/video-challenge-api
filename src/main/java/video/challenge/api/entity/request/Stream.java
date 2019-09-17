@@ -17,9 +17,8 @@ public class Stream extends BitMovin {
         JSONArray inputStreams = new JSONArray();
         JSONObject inputStream = new JSONObject();
         inputStream.put("inputId", inputId);
-        inputStream.put("inputPath", "/home/mateus/workfolder/storage");
-        inputStream.put("selectionMode", "AUTO");
-        inputStream.put("position", 0);
+        inputStream.put("inputPath", "/");
+        inputStream.put("selectionMode", "VIDEO_RELATIVE");
         inputStreams.add(inputStream);
         params.put("inputStreams", inputStreams);
 

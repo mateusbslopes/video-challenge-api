@@ -29,23 +29,26 @@ public class Encoding {
     public static void encode(String name){
         try {
             httpClient = HttpClientBuilder.create().build();
-
-            encodeId = "1d2c9203-8ece-4ae0-b6a5-88d8748dbdff";
-            inputId = "209cff35-5c6f-4541-98ac-3ca08fbdf846";
-            outputId = "2ece7963-a61e-4683-81de-246cb25ee258";
-            h624VideoConfigurationId = "f8fb66dc-7740-4743-a1d9-c6ce636d22e4";
-            streamId = "c7f43adb-f95e-480d-857c-6eaee5fc3825";
-
-            setInputId();
+//            setInputId();
+            inputId = "e742f114-c102-4865-8f6c-cf40fe83f5d5";
             setOutputId();
             setH624VideoConfigurationId();
             setEncodeId();
             setStreamId();
-
+            setMuxingId();
             startEncoding();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void setMuxingId() throws IOException {
+        Muxing request = new Muxing(encodeId, streamId);
+        HttpResponse response = httpClient.execute(request);
+        HttpEntity ent = response.getEntity();
+        InputStream is = ent.getContent();
+        String responseStr = convert(is, Charset.defaultCharset());
+        System.out.println(responseStr);
     }
 
     private static void startEncoding() throws IOException, ParseException {
@@ -54,7 +57,6 @@ public class Encoding {
         HttpEntity ent = response.getEntity();
         InputStream is = ent.getContent();
         String responseStr = convert(is, Charset.defaultCharset());
-        System.out.println(responseStr);
     }
 
     private static void setStreamId() throws IOException, ParseException {

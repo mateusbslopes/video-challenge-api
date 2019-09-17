@@ -15,6 +15,7 @@ public class H264VideoConfiguration extends BitMovin {
 
         params.put("name", "testH264VideoConfiguration");
         params.put("bitrate", 1500000L);
+        params.put("width", 1024);
         params.put("profile", "HIGH");
         StringEntity entity = new StringEntity(params.toJSONString());
         setEntity(entity);

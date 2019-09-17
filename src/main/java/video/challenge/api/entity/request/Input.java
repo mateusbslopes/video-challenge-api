@@ -12,7 +12,7 @@ public class Input extends BitMovin {
         super("/encoding/inputs/s3");
         JSONObject params = new JSONObject();
 
-        params.put("name", name);
+        params.put("name", "sample.mkv");
         params.put("cloudRegion", "SA_EAST_1");
         params.put("bucketName", "video-challenge-api");
         params.put("accessKey", "");
